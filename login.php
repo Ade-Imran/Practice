@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 $email = trim($data['email']);
@@ -25,6 +27,9 @@ if ($users[$email]['password'] !== $password) {
     exit;
 }
 
-// If all checks pass, return success
+// If all checks pass, start a session and redirect
+$_SESSION['logged_in'] = true;
+$_SESSION['email'] = $email;
+
 echo json_encode(['success' => true, 'message' => 'Login successful.']);
 ?>
