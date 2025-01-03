@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verify Code</title>
     <style>
-        /* Similar styling as signup page */
-    body {
+        body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -62,16 +61,15 @@
 
 <script>
     document.getElementById("verify-form").addEventListener("submit", async function(event) {
-    event.preventDefault();
+        event.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
-    const authCode = document.getElementById("auth-code").value.trim();
-    const errorMessage = document.getElementById("error-message");
+        const email = document.getElementById("email").value.trim();
+        const authCode = document.getElementById("auth-code").value.trim();
+        const errorMessage = document.getElementById("error-message");
 
-    const response = await fetch("Verify_code.php", { // Ensure it matches the backend file name
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
+        const response = await fetch("verify_code.php", {
+            method: "POST",
+            headers: {"Content-Type": "application/json",
         },
         body: JSON.stringify({ email, authCode }),
     });
@@ -79,8 +77,8 @@
     const result = await response.json();
 
     if (result.success) {
-        alert("Verification successful! Redirecting to login...");
-        window.location.href = result.redirect; // Redirect to index.html
+        alert("Verification successful! You can now log in.");
+        window.location.href = "login.html";
     } else {
         errorMessage.textContent = result.message || "Invalid code. Please try again.";
     }
