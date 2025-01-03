@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <style>
-        /* Styling remains the same */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -70,23 +69,18 @@
         const password = document.getElementById("password").value.trim();
         const errorMessage = document.getElementById("error-message");
 
-        // Gmail validation regex
         const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
         if (!gmailRegex.test(email)) {
             errorMessage.textContent = "Please enter a valid Gmail address (e.g., example@gmail.com).";
             return;
         }
 
-            // Password validation: minimum 7 characters, 3 words, 3 numbers, and 1 special character
-    const passwordRegex = /^(?=(.*[a-zA-Z]){3})(?=(.*\d){3})(?=(.*[!@#$_&+\-*]){1}).{7,}$/;
+        const passwordRegex = /^(?=(.*[a-zA-Z]){3})(?=(.*\d){3})(?=(.*[!@#$_&+\-*]){1}).{7,}$/;
+        if (!passwordRegex.test(password)) {
+            errorMessage.textContent = "Password must be at least 7 characters long, contain 3 words, 3 numbers, and 1 special character.";
+            return;
+        }
 
-    if (!passwordRegex.test(password)) {
-        errorMessage.textContent = "Password must be at least 7 characters long, contain 3 words, 3 numbers, and 1 special character.";
-        return;
-    }
-        
-        // Send request to backend to send authentication code
         const response = await fetch("send_code.php", {
             method: "POST",
             headers: {
@@ -99,7 +93,7 @@
 
         if (result.success) {
             alert("An authentication code has been sent to your Gmail. Please verify.");
-            window.location.href = "verify.html"; // Redirect to verification page
+            window.location.href = "verify.html";
         } else {
             errorMessage.textContent = result.message || "An error occurred. Please try again.";
         }
