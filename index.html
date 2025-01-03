@@ -1,139 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Periodic Table</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-    header, footer {
-      background-color: #333;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-    }
-    .container {
-      display: flex;
-    }
-    .part {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      height: 400px; /* Adjust height as needed */
-    }
-    .hidden-content {
-      display: none;
-      margin-top: 20px;
-    }
-    .periodic-table {
-      display: grid;
-      grid-template-columns: repeat(18, 1fr);
-      grid-gap: 5px;
-    }
-    .element-button {
-      padding: 10px;
-      background-color: #ccc;
-      border: 1px solid #999;
-      text-align: center;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-      text-transform: uppercase;
-      transition: background-color 0.3s;
-    }
-    .element-button:hover {
-      background-color: #999;
-      color: #fff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-
-<header>
-  <h1>Periodic Table</h1>
-</header>
-
-<div class="container">
-  <div class="part part-a">
-    <h2>Part A</h2>
-    <div class="periodic-table">
-      <button class="element-button" data-target="hydrogen">H</button>
-      <button class="element-button" data-target="helium">He</button>
-      <button class="element-button" data-target="lithium">Li</button>
-      <!-- Add more buttons for other elements -->
-    </div>
-  </div>
-  
-  <div class="part part-b">
-    <h2>Part B</h2>
-    <div class="hidden-content" id="hydrogen">
-      Hidden content for Hydrogen
-    </div>
-    <div class="hidden-content" id="helium">
-      Hidden content for Helium
-    </div>
-    <div class="hidden-content" id="lithium">
-      Hidden content for Lithium
-    </div>
-    <!-- Add more hidden content divs here -->
-  </div>
-</div>
-
-<footer>
-  <h3>Footer</h3>
-  <button onclick="logout()">Logout</button>
-</footer>
-
-<script>
-  const elementButtons = document.querySelectorAll('.element-button');
-
-  // Load logged-in user
-  const loggedInUser = localStorage.getItem("loggedInUser");
-  if (!loggedInUser) {
-    window.location.href = "Login.html"; // Redirect to login if not logged in
-  }
-
-  // Show user-specific progress
-  const userProgress = JSON.parse(localStorage.getItem("userProgress")) || {};
-  const userElements = userProgress[loggedInUser] || [];
-
-  elementButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const targetId = this.getAttribute('data-target');
-      const targetContent = document.getElementById(targetId);
-
-      // Hide all hidden content divs
-      document.querySelectorAll('.hidden-content').forEach(content => {
-        content.style.display = 'none';
-      });
-
-      // Show the content of the clicked button
-      targetContent.style.display = 'block';
-
-      // Save progress for the logged-in user
-      if (!userElements.includes(targetId)) {
-        userElements.push(targetId); // Add the element to user progress
-        userProgress[loggedInUser] = userElements; // Update user progress
-        localStorage.setItem("userProgress", JSON.stringify(userProgress)); // Save to local storage
-      }
-    });
-
-    // Show previously accessed elements based on user progress
-    if (userElements.includes(button.getAttribute('data-target'))) {
-      button.click(); // Trigger click to show the content
-    }
-  });
-
-  // Logout function
-  function logout() {
-    localStorage.removeItem("loggedInUser"); // Remove user from local storage
-    window.location.href = "Login.html"; // Redirect to login page
-  }
-</script>
-
+    <h1>Welcome to the Homepage!</h1>
+    <p>You have successfully logged in.</p>
 </body>
 </html>
