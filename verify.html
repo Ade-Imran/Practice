@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Code</title>
+    <style>
+        /* Similar styling as signup page */
+    body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Verify Code</h2>
+    <form id="verify-form">
+        <input type="email" id="email" placeholder="Enter your Gmail" required>
+        <input type="text" id="auth-code" placeholder="Enter authentication code" required>
+        <span id="error-message" class="error"></span>
+        <button type="submit">Verify</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("verify-form").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const authCode = document.getElementById("auth-code").value.trim();
+    const errorMessage = document.getElementById("error-message");
+
+    const response = await fetch("Verify_code.php", { // Ensure it matches the backend file name
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, authCode }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        alert("Verification successful! Redirecting to login...");
+        window.location.href = result.redirect; // Redirect to index.html
+    } else {
+        errorMessage.textContent = result.message || "Invalid code. Please try again.";
+    }
+});
+</script>
+
+</body>
+</html>

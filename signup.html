@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        /* Styling remains the same */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Sign Up</h2>
+    <form id="sign-up-form">
+        <input type="text" id="username" placeholder="Enter your username" required>
+        <input type="email" id="email" placeholder="Enter your Gmail" required>
+        <input type="password" id="password" placeholder="Enter your password" required>
+        <span id="error-message" class="error"></span>
+        <button type="submit">Sign Up</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("sign-up-form").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorMessage = document.getElementById("error-message");
+
+        // Gmail validation regex
+        const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+        if (!gmailRegex.test(email)) {
+            errorMessage.textContent = "Please enter a valid Gmail address (e.g., example@gmail.com).";
+            return;
+        }
+
+            // Password validation: minimum 7 characters, 3 words, 3 numbers, and 1 special character
+    const passwordRegex = /^(?=(.*[a-zA-Z]){3})(?=(.*\d){3})(?=(.*[!@#$_&+\-*]){1}).{7,}$/;
+
+    if (!passwordRegex.test(password)) {
+        errorMessage.textContent = "Password must be at least 7 characters long, contain 3 words, 3 numbers, and 1 special character.";
+        return;
+    }
+        
+        // Send request to backend to send authentication code
+        const response = await fetch("send_code.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, email, password }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("An authentication code has been sent to your Gmail. Please verify.");
+            window.location.href = "verify.html"; // Redirect to verification page
+        } else {
+            errorMessage.textContent = result.message || "An error occurred. Please try again.";
+        }
+    });
+</script>
+
+</body>
+</html>
