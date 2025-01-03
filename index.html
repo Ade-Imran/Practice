@@ -94,7 +94,7 @@
   // Load logged-in user
   const loggedInUser = localStorage.getItem("loggedInUser");
   if (!loggedInUser) {
-    window.location.href = "login.html"; // Redirect to login if not logged in
+    window.location.href = "Login.html"; // Redirect to login if not logged in
   }
 
   // Show user-specific progress
@@ -131,7 +131,7 @@
   // Logout function
   function logout() {
     localStorage.removeItem("loggedInUser"); // Remove user from local storage
-    window.location.href = "login.html"; // Redirect to login page
+    window.location.href = "Login.html"; // Redirect to login page
   }
 </script>
 
